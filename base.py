@@ -1,15 +1,27 @@
 import pyautogui
+from PIL import Image
 import cv2
 import numpy as np
 import time
 import keyboard
+import pytesseract
 
 base = cv2.imread('chat.PNG', cv2.IMREAD_GRAYSCALE)
 diff_limit = 100
-region = (248, 788, 80, 23)
+region = (277, 782, 80, 23)
 base_bin = cv2.threshold(base, 30, 255, cv2.THRESH_BINARY)[1]
 ini = 'f1'
+chat_txt= (31,808,458,242)
 
+
+
+def textin(chat_txt):
+    screenshot = pyautogui.screenshot(region = chat_txt)
+    screenshot = np.array(screenshot)
+    screenshot = cv2.cvtColor(screenshot, cv2.COLOR_RGB2GRAY)
+    texto = str(pytesseract.image_to_string(screenshot)) 
+    return texto
+   
 def tela_nova(region):
     screenshot = pyautogui.screenshot(region=region)
     screenshot = np.array(screenshot)
@@ -29,6 +41,9 @@ def inicio(key):
     print("iniciando")
 
 
+   
+
+
 inicio(ini)
 
 while True:
@@ -37,9 +52,14 @@ while True:
     
     
     if resultado > diff_limit:
-        pyautogui.click(x = 292 ,y= 800 ,clicks=2)
+        pyautogui.click(x = 307 ,y= 788 ,clicks=2)
         time.sleep(1)
-        pyautogui.click(x = 160 ,y= 1064 )
+
+        texto_capturado = textin(chat_txt)
+        print("Texto capturado:", texto_capturado)
+
+        time.sleep(5)
+        pyautogui.click(x = 276 ,y= 1055 )
         time.sleep(1)
         pyautogui.typewrite("sure, 1 sec")
         time.sleep(1)
@@ -54,4 +74,5 @@ while True:
     
     time.sleep(3)
     print(resultado)
+
 
