@@ -7,12 +7,11 @@ import keyboard
 import pytesseract
 
 base = cv2.imread('chat.PNG', cv2.IMREAD_GRAYSCALE)
-diff_limit = 100
+diff_limit = 3000
 region = (277, 782, 80, 23)
 base_bin = cv2.threshold(base, 30, 255, cv2.THRESH_BINARY)[1]
 ini = 'f1'
 chat_txt= (31,808,458,242)
-
 
 
 def textin(chat_txt):
@@ -39,8 +38,6 @@ def inicio(key):
     print(f"pressione f1 para iniciar")
     keyboard.wait(key)
     print("iniciando")
-
-
    
 
 
@@ -52,14 +49,17 @@ while True:
     
     
     if resultado > diff_limit:
-        pyautogui.click(x = 307 ,y= 788 ,clicks=2)
+        pyautogui.moveTo(x = 307 ,y= 788)
+        pyautogui.click(x = 307 ,y= 788 )
+        pyautogui.mouseDown(); pyautogui.mouseUp()
         time.sleep(1)
-
+         
         texto_capturado = textin(chat_txt)
         print("Texto capturado:", texto_capturado)
-
+       
         time.sleep(5)
-        pyautogui.click(x = 276 ,y= 1055 )
+        pyautogui.moveTo(x = 276 ,y= 1055 )
+        pyautogui.mouseDown(); pyautogui.mouseUp()
         time.sleep(1)
         pyautogui.typewrite("sure, 1 sec")
         time.sleep(1)
@@ -70,9 +70,8 @@ while True:
         print("pressione f1 para reiniciar")
         keyboard.wait(ini)
         print("reiniciando")
-        
+       
     
     time.sleep(3)
-    print(resultado)
 
 
