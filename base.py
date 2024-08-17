@@ -5,34 +5,29 @@ import time
 import keyboard
 
 base = cv2.imread('chat.PNG', cv2.IMREAD_GRAYSCALE)
-if base is None:
-    raise ValueError("Imagem não encontrada ou caminho inválido")
-
-region = (245, 802, 79, 27)
-base_int = base.astype(np.uint8)
-base_bin = cv2.threshold(base_int, 30, 255, cv2.THRESH_BINARY)[1]
+diff_limit = 100
+region = (248, 788, 80, 23)
+base_bin = cv2.threshold(base, 30, 255, cv2.THRESH_BINARY)[1]
+ini = 'f1'
 
 def tela_nova(region):
     screenshot = pyautogui.screenshot(region=region)
     screenshot = np.array(screenshot)
     screenshot = cv2.cvtColor(screenshot, cv2.COLOR_RGB2GRAY)
     screenshot = screenshot.astype(np.uint8)
-    _, thresholded = cv2.threshold(screenshot, 30, 255, cv2.THRESH_BINARY)
-    return thresholded
+    _, new_screenshot = cv2.threshold(screenshot, 30, 255, cv2.THRESH_BINARY)
+    return new_screenshot
 
 def diff(base_bin, tela_nova):
     numero = np.abs(base_bin - tela_nova)
     soma_dife = np.sum(numero)
     return soma_dife
 
-threshold_limit = 100
-
-ini = 'f1'
-
 def inicio(key):
     print(f"pressione f1 para iniciar")
     keyboard.wait(key)
     print("iniciando")
+
 
 inicio(ini)
 
@@ -41,10 +36,10 @@ while True:
     resultado = diff(base_bin, tela_atual)
     
     
-    if resultado > threshold_limit:
-        pyautogui.click(x = 287 ,y= 809 ,clicks=2)
+    if resultado > diff_limit:
+        pyautogui.click(x = 292 ,y= 800 ,clicks=2)
         time.sleep(1)
-        pyautogui.click(x = 293 ,y= 1058 )
+        pyautogui.click(x = 160 ,y= 1064 )
         time.sleep(1)
         pyautogui.typewrite("sure, 1 sec")
         time.sleep(1)
@@ -58,4 +53,5 @@ while True:
         
     
     time.sleep(3)
+    print(resultado)
 
