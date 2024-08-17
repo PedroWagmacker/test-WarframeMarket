@@ -5,13 +5,16 @@ import numpy as np
 import time
 import keyboard
 import pytesseract
+from pushbullet import Pushbullet
+
 
 base = cv2.imread('chat.PNG', cv2.IMREAD_GRAYSCALE)
-diff_limit = 3000
-region = (277, 782, 80, 23)
+diff_limit = 5000
+region = (224, 792, 98, 35)
 base_bin = cv2.threshold(base, 30, 255, cv2.THRESH_BINARY)[1]
 ini = 'f1'
-chat_txt= (31,808,458,242)
+chat_txt= (5,833,451,222)
+pb = Pushbullet(api_key="api key")
 
 
 def textin(chat_txt):
@@ -34,10 +37,15 @@ def diff(base_bin, tela_nova):
     soma_dife = np.sum(numero)
     return soma_dife
 
+def enviar(title, body):
+    pb.push_note(title,body)
+
+
 def inicio(key):
     print(f"pressione f1 para iniciar")
     keyboard.wait(key)
     print("iniciando")
+
    
 
 
@@ -47,18 +55,20 @@ while True:
     tela_atual = tela_nova(region)
     resultado = diff(base_bin, tela_atual)
     
-    
+   
     if resultado > diff_limit:
-        pyautogui.moveTo(x = 307 ,y= 788)
-        pyautogui.click(x = 307 ,y= 788 )
+        pyautogui.moveTo(x = 242 ,y= 810)
+        pyautogui.click()
         pyautogui.mouseDown(); pyautogui.mouseUp()
         time.sleep(1)
          
         texto_capturado = textin(chat_txt)
-        print("Texto capturado:", texto_capturado)
+
+        enviar("olha as platininha", texto_capturado)
+        
        
         time.sleep(5)
-        pyautogui.moveTo(x = 276 ,y= 1055 )
+        pyautogui.moveTo(x = 169 ,y= 1065 )
         pyautogui.mouseDown(); pyautogui.mouseUp()
         time.sleep(1)
         pyautogui.typewrite("sure, 1 sec")
@@ -70,7 +80,7 @@ while True:
         print("pressione f1 para reiniciar")
         keyboard.wait(ini)
         print("reiniciando")
-       
+  
     
     time.sleep(3)
 
