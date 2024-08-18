@@ -9,12 +9,12 @@ from pushbullet import Pushbullet
 
 
 base = cv2.imread('chat.PNG', cv2.IMREAD_GRAYSCALE)
-diff_limit = 5000
-region = (224, 792, 98, 35)
+diff_limit = 1000
+region = (249, 805, 26, 22)
 base_bin = cv2.threshold(base, 30, 255, cv2.THRESH_BINARY)[1]
 ini = 'f1'
-chat_txt= (5,833,451,222)
-pb = Pushbullet(api_key="api key")
+chat_txt= (3,831,451,224)
+pb = Pushbullet(api_key="your api key")
 
 
 def textin(chat_txt):
@@ -55,9 +55,9 @@ while True:
     tela_atual = tela_nova(region)
     resultado = diff(base_bin, tela_atual)
     
-   
+
     if resultado > diff_limit:
-        pyautogui.moveTo(x = 242 ,y= 810)
+        pyautogui.moveTo(x = 283 ,y= 812)
         pyautogui.click()
         pyautogui.mouseDown(); pyautogui.mouseUp()
         time.sleep(1)
@@ -80,8 +80,8 @@ while True:
         print("pressione f1 para reiniciar")
         keyboard.wait(ini)
         print("reiniciando")
-  
-    
+
+    print(resultado)
     time.sleep(3)
 
 
